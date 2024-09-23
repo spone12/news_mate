@@ -1,0 +1,1 @@
+# Module for receiving news (RSS, API)
