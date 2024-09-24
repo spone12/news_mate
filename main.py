@@ -3,12 +3,13 @@ import asyncio
 import sys
 
 from bot.create_bot import bot, dp, logger
-from bot.handlers.messages import messages_router
+from bot.handlers.chatMessages import chatMessagesRouter
 
-async def main():
-    dp.include_router(messages_router)
-    await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot)
+class Bot():
+    async def main(self):
+        dp.include_router(chatMessagesRouter)
+        await bot.delete_webhook(drop_pending_updates=True)
+        await dp.start_polling(bot)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(Bot().main())
