@@ -1,10 +1,9 @@
 # Main file to start bot
 import asyncio
-import logging
 import sys
 
-from create_bot import bot, dp, logger
-from handlers.messages import messages_router
+from bot.create_bot import bot, dp, logger
+from bot.handlers.messages import messages_router
 
 async def main():
     dp.include_router(messages_router)
