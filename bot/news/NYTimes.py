@@ -59,9 +59,9 @@ class NYTimes(NewsAPInterface):
         return self.responseJsonParse(data)
     
     def responseJsonParse(self, jsonData):
-        #__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        # __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         
-        #with open(os.path.join(__location__, 'ny.json'), 'r') as file:
+        # with open(os.path.join(__location__, 'ny.json'), 'r') as file:
         #    jsonData = json.load(file)
 
         if not jsonData:
