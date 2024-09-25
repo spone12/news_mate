@@ -7,8 +7,11 @@ chatMessagesRouter = Router()
 
 @chatMessagesRouter.message(CommandStart())
 async def cmdStart(message: Message):
-    NYTimes().get('home.json')
-    await message.answer('Starting a message by /start using a filter CommandStart()')
+    responseData = NYTimes().get('home.json')
+
+    # temporarily here
+    for i in range(0, responseData['num_results'] - 1):
+        await message.answer(responseData[i]['url'])
 
 @chatMessagesRouter.message(Command('start_2'))
 async def cmdStart2(message: Message):
