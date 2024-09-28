@@ -7,7 +7,7 @@ chatMessagesRouter = Router()
 
 @chatMessagesRouter.message(CommandStart())
 async def cmdStart(message: Message):
-    await message.answer('Starting a message')
+    await message.answer('Добро пожаловать в бот!')
 
 @chatMessagesRouter.message(Command('get_news'))
 async def cmdGetNews(message: Message):
