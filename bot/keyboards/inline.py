@@ -7,9 +7,8 @@ class InlineKeyboard():
     def __init__(self):
         self.builder = InlineKeyboardBuilder() 
 
-    def create_inline_kb(self,
+    def createInlineKeyBoard(self,
                          width: int,
-                         buttonNames: str,
                          buttonActions: str,
                         **kwargs: str
                         ) -> InlineKeyboardMarkup:
@@ -19,10 +18,10 @@ class InlineKeyboard():
         # Initialize the list for buttons
         buttons: list[InlineKeyboardButton] = []
 
-        if buttonNames:
-            for button in buttonNames:
+        if buttonActions:
+            for button in buttonActions:
                 buttons.append(InlineKeyboardButton(
-                    text=buttonActions[button] if button in buttonActions else button,
+                    text=buttonActions[button],
                     callback_data=button)
                 )
 

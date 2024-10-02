@@ -7,6 +7,7 @@ import json
 from os import getenv
 import os
 from collections import defaultdict
+import io
 
 from bot.create_bot import logger
 
@@ -17,7 +18,32 @@ class NYTimes(NewsAPInterface):
     
     _urlAPI = "https://api.nytimes.com/svc/topstories/v2/{0}?api-key={1}"
     sections = [
-        'home'
+        'arts',
+        'automobiles',
+        'books/review',
+        'business',
+        'fashion',
+        'food',
+        'health',
+        'home',
+        'insider',
+        'magazine',
+        'movies',
+        'nyregion',
+        'obituaries',
+        'opinion',
+        'politics',
+        'realestate',
+        'science',
+        'sports',
+        'sundayreview',
+        'technology',
+        'theater',
+        't-magazine',
+        'travel',
+        'upshot',
+        'us',
+        'world'
     ]
 
     def __init__(self):
@@ -38,6 +64,8 @@ class NYTimes(NewsAPInterface):
 
         if not self.checkToken():
             return False
+        
+        #return self.responseJsonParse("")
 
         formatedUrl = self._urlAPI.format(url, self.token)
     
@@ -61,7 +89,7 @@ class NYTimes(NewsAPInterface):
     def responseJsonParse(self, jsonData):
         # __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         
-        # with open(os.path.join(__location__, 'ny.json'), 'r') as file:
+        # with io.open(os.path.join(__location__, 'ny.json'), encoding='utf-8') as file:
         #    jsonData = json.load(file)
 
         if not jsonData:
@@ -83,6 +111,8 @@ class NYTimes(NewsAPInterface):
             # Images
             for kI, image in enumerate(res['multimedia']):
                 newsData[k]['images'][kI] = image
-            break ########################### temporarily
+            
+            if k == 5:
+                break ########################### temporarily
         
         return newsData

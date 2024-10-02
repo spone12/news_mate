@@ -2,14 +2,19 @@
 import asyncio
 
 from bot.create_bot import bot, dp
-from bot.handlers.chatMessages import chatMessagesRouter
+from bot.handlers.commandsRouterHandler import mainCommandsRouter
+from bot.handlers.callbackRouterHandler import callbackRouter
 from bot.keyboards.set_menu import setMainMenu
 
 
 class Bot():
     async def main(self):
         await setMainMenu(bot)
-        dp.include_router(chatMessagesRouter)
+
+        # Include routers
+        for router in [mainCommandsRouter, callbackRouter]:
+            dp.include_router(router)
+
         await bot.delete_webhook(drop_pending_updates=True)
         await dp.start_polling(bot)
         
