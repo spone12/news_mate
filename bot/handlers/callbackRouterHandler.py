@@ -8,6 +8,7 @@ callbackRouter = Router()
 
 @callbackRouter.callback_query()
 async def callback_handle(call: types.CallbackQuery):
-    button = call.data
-    print(button)
+    split = call.data.split('_')
+    sectionName = News().getSectionById(int(split[1]))
+    print(split, sectionName)
     #await call.answer()

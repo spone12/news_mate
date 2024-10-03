@@ -18,13 +18,27 @@ class News():
         if api == "NYT":
             return NYTimes().get('home.json')
 
+    def getSections(self):
+
+        sections = NYTimes().getSections()
+        BUTTONS: dict[str, str] = {}
+        
+        for i, section in enumerate(sections):
+            BUTTONS['section_' + str(i)] = section
+        
+        return self.keyboard.createInlineKeyBoard(3, BUTTONS)
+    
+    def getSectionById(self, id:int):
+        return NYTimes().getSectionById(id)
+        
+
     def sendMessage(self):
         """
             Send news messages in chat
         """
         
         responseAPI = self.getAPI()
-        print(responseAPI)
+        #print(responseAPI)
         BUTTONS: dict[str, str] = {}
 
         topNews = responseAPI['num_results'] - 1

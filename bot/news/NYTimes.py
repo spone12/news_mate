@@ -116,3 +116,13 @@ class NYTimes(NewsAPInterface):
                 break ########################### temporarily
         
         return newsData
+    
+    def getSections(self):
+        return self.sections
+    
+    def getSectionById(self, id:int):
+        if self.sections[id]:
+            return self.sections[id]
+        else:
+            return False
+    

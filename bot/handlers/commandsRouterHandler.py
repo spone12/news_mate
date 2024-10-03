@@ -15,8 +15,8 @@ async def cmdStart(message: Message):
 @mainCommandsRouter.message(Command('get_news'))
 async def cmdGetNews(message: Message):
 
-    newsArray = News().sendMessage()
+    sectionArray = News().getSections()
     await message.answer(
-        text='<code>New York Times</code> top news',
-        reply_markup=newsArray
+        text='Choose the topic news',
+        reply_markup=sectionArray
     )
