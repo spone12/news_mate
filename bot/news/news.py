@@ -13,10 +13,10 @@ class News():
     def __init__(self):
         self.keyboard = InlineKeyboard()
 
-    def getAPI(self, api = "NYT"):
+    def getAPI(self, section:str, api = "NYT"):
 
         if api == "NYT":
-            return NYTimes().get('home.json')
+            return NYTimes().get(section)
 
     def getSections(self):
 
@@ -32,21 +32,20 @@ class News():
         return NYTimes().getSectionById(id)
         
 
-    def sendMessage(self):
+    def getNews(self, section: str):
         """
-            Send news messages in chat
+            Get news from API
         """
         
-        responseAPI = self.getAPI()
-        #print(responseAPI)
-        BUTTONS: dict[str, str] = {}
+        responseAPI = self.getAPI(section)
+        NEWS = ""
 
         topNews = responseAPI['num_results'] - 1
         if topNews > 5:
             topNews = 5
 
         for i in range(0, topNews):
-            BUTTONS['news_' + str(i + 1)] = responseAPI[i]['title']
+            NEWS += "<a href='{0}'>{1}: {2}</a>\n\n".format(responseAPI[i]['url'], (i + 1), responseAPI[i]['title'])
         
-        return self.keyboard.createInlineKeyBoard(2, BUTTONS)
+        return NEWS
         

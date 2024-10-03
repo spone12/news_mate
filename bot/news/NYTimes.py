@@ -67,7 +67,7 @@ class NYTimes(NewsAPInterface):
         
         #return self.responseJsonParse("")
 
-        formatedUrl = self._urlAPI.format(url, self.token)
+        formatedUrl = self._urlAPI.format(url + '.json', self.token)
     
         data = ""
         headers = {
