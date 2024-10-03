@@ -112,8 +112,8 @@ class NYTimes(NewsAPInterface):
             for kI, image in enumerate(res['multimedia']):
                 newsData[k]['images'][kI] = image
             
-            if k == 5:
-                break ########################### temporarily
+            if k == int(getenv("MAX_NEWS")):
+                break
         
         return newsData
     

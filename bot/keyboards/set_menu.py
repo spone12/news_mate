@@ -2,8 +2,9 @@ from aiogram import Bot
 from aiogram.types import BotCommand
 
 COMMANDS_RU: dict[str, str] = {
-    '/start'    : 'Начать работу бота',
-    '/get_news' : 'Получить новости'
+    '/start'      : 'Начать работу бота',
+    '/choose_api' : 'Выберите новостной источник',
+    '/get_news'   : 'Получить новости'
 }
 
 async def setMainMenu(bot: Bot):

@@ -38,11 +38,11 @@ class News():
         """
         
         responseAPI = self.getAPI(section)
-        NEWS = ""
+        NEWS = "<b>{0}</b>\n\n".format(section.capitalize())
 
         topNews = responseAPI['num_results'] - 1
-        if topNews > 5:
-            topNews = 5
+        if topNews > int(getenv("MAX_NEWS")):
+            topNews = int(getenv("MAX_NEWS"))
 
         for i in range(0, topNews):
             NEWS += "<a href='{0}'>{1}: {2}</a>\n\n".format(responseAPI[i]['url'], (i + 1), responseAPI[i]['title'])

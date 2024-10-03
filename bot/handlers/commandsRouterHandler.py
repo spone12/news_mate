@@ -20,3 +20,7 @@ async def cmdGetNews(message: Message):
         text='Choose the topic news',
         reply_markup=sectionArray
     )
+
+@mainCommandsRouter.message(Command('choose_api'))
+async def cmdChooseApi(message: Message):
+    pass
