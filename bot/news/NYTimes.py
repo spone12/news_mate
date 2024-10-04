@@ -9,7 +9,7 @@ import os
 from collections import defaultdict
 import io
 
-from bot.create_bot import logger
+from bot.createBot import logger
 
 class NYTimes(NewsAPInterface):
     """

@@ -2,8 +2,9 @@
 
 from requests.exceptions import HTTPError
 from bot.news.NYTimes import *
-from bot.create_bot import logger
+from bot.createBot import logger
 from bot.keyboards.inline import *
+from bot.enums.newsSources import NewsSources
 
 class News():
     """
@@ -12,6 +13,7 @@ class News():
 
     def __init__(self):
         self.keyboard = InlineKeyboard()
+        self.newsSources = NewsSources.NEWS_SOURCES.value
 
     def getAPI(self, section:str, api = "NYT"):
 
@@ -30,8 +32,15 @@ class News():
     
     def getSectionById(self, id:int):
         return NYTimes().getSectionById(id)
+    
+    def getNewsSources(self):
+        """
+            Get a keyboard to select a news source
+        """
         
-
+        newsSources: dict[str, str] = self.newsSources
+        return self.keyboard.createInlineKeyBoard(1, newsSources)
+        
     def getNews(self, section: str):
         """
             Get news from API

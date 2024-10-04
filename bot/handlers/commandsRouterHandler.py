@@ -21,6 +21,10 @@ async def cmdGetNews(message: Message):
         reply_markup=sectionArray
     )
 
-@mainCommandsRouter.message(Command('choose_api'))
-async def cmdChooseApi(message: Message):
-    pass
+@mainCommandsRouter.message(Command('news_source'))
+async def cmdGetNewsSources(message: Message):
+    newsSource = News().getNewsSources()
+    await message.answer(
+        text='Choose the news source',
+        reply_markup=newsSource
+    )

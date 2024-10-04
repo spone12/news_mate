@@ -1,10 +1,10 @@
 # Main file to start bot
 import asyncio
 
-from bot.create_bot import bot, dp
+from bot.createBot import bot, dp
 from bot.handlers.commandsRouterHandler import mainCommandsRouter
 from bot.handlers.callbackRouterHandler import callbackRouter
-from bot.keyboards.set_menu import setMainMenu
+from bot.keyboards.setMenu import setMainMenu
 
 
 class Bot():
