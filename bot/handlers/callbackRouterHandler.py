@@ -8,11 +8,13 @@ from aiogram.fsm.context import FSMContext
 callbackRouter = Router()
 
 @callbackRouter.callback_query(F.data.startswith('section_'))
-async def callbackHandle(call: types.CallbackQuery):
+async def getNewsHandle(call: types.CallbackQuery):
+    """
+        Handle: get news on the selected topic
+    """
     
-    split = call.data.split('_')
-    sectionName = News().getSectionById(int(split[1]))
-    news = News().getNews(sectionName)
+    section = call.data.split('_')[1]
+    news = News().getNews(section)
 
     await call.message.answer(
         text=news,
@@ -21,6 +23,10 @@ async def callbackHandle(call: types.CallbackQuery):
     )
 
 @callbackRouter.callback_query(F.data.startswith('source_'))
-async def setNewsSource(call: types.CallbackQuery, state: FSMContext):
+async def setNewsSourceHandle(call: types.CallbackQuery, state: FSMContext):
+    """
+        Handle: Set up a news source
+    """
+    
     print(call.data)
     

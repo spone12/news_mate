@@ -50,7 +50,7 @@ class NYTimes(NewsAPInterface):
         self.logger = logger
         self.token = getenv("NYT_TOKEN")
 
-    def checkToken(self):
+    def checkToken(self) -> bool:
         """
             Checking API token installation
         """
@@ -63,6 +63,10 @@ class NYTimes(NewsAPInterface):
     def get(self, url: str, params = "", headers = "") -> str:
 
         if not self.checkToken():
+            return False
+        
+        if not url in self.sections:
+            self.logger.log(self.__class__.__name__, f"Section topic doesn't exist!")
             return False
         
         #return self.responseJsonParse("")
@@ -86,7 +90,7 @@ class NYTimes(NewsAPInterface):
             
         return self.responseJsonParse(data)
     
-    def responseJsonParse(self, jsonData):
+    def responseJsonParse(self, jsonData) -> dict:
         # __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         
         # with io.open(os.path.join(__location__, 'ny.json'), encoding='utf-8') as file:
@@ -109,20 +113,44 @@ class NYTimes(NewsAPInterface):
                 newsData[k][key] = res[key]
 
             # Images
-            for kI, image in enumerate(res['multimedia']):
-                newsData[k]['images'][kI] = image
-            
+            if res['multimedia'] is not None:
+                for kI, image in enumerate(res['multimedia']):
+                    newsData[k]['images'][kI] = image
+            else:
+                newsData[k]['images'][k] = ''
+
             if k == int(getenv("MAX_NEWS")):
                 break
         
         return newsData
     
-    def getSections(self):
+    def getSections(self) -> list:
         return self.sections
-    
-    def getSectionById(self, id:int):
-        if self.sections[id]:
-            return self.sections[id]
-        else:
-            return False
-    
+        
+    def sectionButtons(self) -> dict:
+        """
+            Get sections buttons from New York Times
+        """
+        
+        BUTTONS: dict[str, str] = {}
+        
+        for section in self.getSections():
+            BUTTONS['section_' + section] = section
+        
+        return BUTTONS
+
+    def getNews(self, data: str, section: str) -> str:
+        """
+            Get news from API
+        """
+        
+        NEWS = "<b>{0}</b>\n\n".format(section.capitalize())
+
+        topNews = data['num_results'] - 1
+        if topNews > int(getenv("MAX_NEWS")):
+            topNews = int(getenv("MAX_NEWS"))
+
+        for i in range(0, topNews):
+            NEWS += "<a href='{0}'>{1}: {2}</a>\n\n".format(data[i]['url'], (i + 1), data[i]['title'])
+        
+        return NEWS

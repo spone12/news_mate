@@ -8,21 +8,32 @@ mainCommandsRouter = Router()
 
 @mainCommandsRouter.message(CommandStart())
 async def cmdStart(message: Message):
+    """
+        Command start
+    """
+    
     await message.answer(
         text='News Bot'
     )
 
 @mainCommandsRouter.message(Command('get_news'))
 async def cmdGetNews(message: Message):
-
-    sectionArray = News().getSections()
+    """
+        Command the “get_news” displays a list of news category buttons
+    """
+    
+    sectionButtonsArray = News().getSectionButtons()
     await message.answer(
         text='Choose the topic news',
-        reply_markup=sectionArray
+        reply_markup=sectionButtonsArray
     )
 
 @mainCommandsRouter.message(Command('news_source'))
 async def cmdGetNewsSources(message: Message):
+    """
+        Command get news sources
+    """
+    
     newsSource = News().getNewsSources()
     await message.answer(
         text='Choose the news source',
