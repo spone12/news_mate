@@ -3,7 +3,10 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
 class InlineKeyboard():
-
+    """
+        Inline keyboard class
+    """
+    
     def __init__(self):
         self.builder = InlineKeyboardBuilder() 
 

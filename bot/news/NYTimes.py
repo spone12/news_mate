@@ -50,6 +50,9 @@ class NYTimes(NewsAPInterface):
         self.logger = logger
         self.token = getenv("NYT_TOKEN")
 
+        if not self.checkToken():
+            return False
+
     def checkToken(self) -> bool:
         """
             Checking API token installation
@@ -61,10 +64,10 @@ class NYTimes(NewsAPInterface):
         return True
 
     def get(self, url: str, params = "", headers = "") -> str:
+        """
+            Get NYT api data
+        """
 
-        if not self.checkToken():
-            return False
-        
         if not url in self.sections:
             self.logger.log(self.__class__.__name__, f"Section topic doesn't exist!")
             return False
@@ -90,7 +93,7 @@ class NYTimes(NewsAPInterface):
             
         return self.responseJsonParse(data)
     
-    def responseJsonParse(self, jsonData) -> dict:
+    def responseJsonParse(self, jsonData: str) -> dict:
         # __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         
         # with io.open(os.path.join(__location__, 'ny.json'), encoding='utf-8') as file:
@@ -125,6 +128,10 @@ class NYTimes(NewsAPInterface):
         return newsData
     
     def getSections(self) -> list:
+        """
+            Get list sections
+        """
+        
         return self.sections
         
     def sectionButtons(self) -> dict:

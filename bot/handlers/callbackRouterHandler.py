@@ -27,6 +27,10 @@ async def setNewsSourceHandle(call: types.CallbackQuery, state: FSMContext):
     """
         Handle: Set up a news source
     """
-    
-    print(call.data)
-    
+
+    message = "The news source successfully assigned"
+    if not News().setNewsSource(call.data):
+        message = "The news source has not been identified!"
+
+    await call.message.answer(f"<b>{message}</b>", parse_mode=ParseMode.HTML)
+    await call.message.delete()

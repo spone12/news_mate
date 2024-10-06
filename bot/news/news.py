@@ -13,12 +13,7 @@ class News():
 
     def __init__(self):
         self.keyboard = InlineKeyboard()
-
-    def getAPI(self, section:str, api = "NYT") -> str:
-
-        if api == "NYT":
-            requestData = NYTimes().get(section)
-            return NYTimes().getNews(requestData, section)
+        self.source = 'NYT' 
 
     def getSectionButtons(self) -> InlineKeyboardMarkup:
         """
@@ -35,11 +30,26 @@ class News():
         
         newsSources: dict[str, str] = NewsSources.NEWS_SOURCES.value
         return self.keyboard.createInlineKeyBoard(1, newsSources)
+    
+    def setNewsSource(self, source: str) -> bool:
+        """
+            Set news source
+        """
         
-    def getNews(self, section: str):
+        if source not in NewsSources.NEWS_SOURCES.value:
+            logger.log(self.__class__.__name__, f"Source '{source}' is not exist!")
+            raise Exception(f"Source '{source}' is not exist!")
+            return False
+                
+        self.source = source.split('_')[1]
+        return True
+
+    def getNews(self, section: str) -> str:
         """
             Get news from API
         """
         
-        return self.getAPI(section)
-    
+        if self.source == "NYT":
+            requestData = NYTimes().get(section)
+            return NYTimes().getNews(requestData, section)
+        
