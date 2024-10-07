@@ -7,19 +7,24 @@ class Logger():
         Logger class
     """
 
-    def __init__(self):
-        self.logPath = "log/"
+    def __init__(self, logPath = 'log/'):
+        self.logPath = logPath
 
     def log(self, logClass: str, message: str, level = 'error') -> None:
+        """
+            Dynamic log to files
+        """
 
         if not os.path.exists(self.logPath):
             os.mkdir(self.logPath)
 
         logging.basicConfig(
             level    = logging.INFO,
-            filename = self.logPath + logClass + "_errors.log",
+            filename = f"{self.logPath}{logClass}_{level}.log",
             filemode = "a",
             format   = "%(asctime)s [%(levelname)s]: %(message)s"
         )
-        logging.error(message) 
+        getattr(logging, level)(message)
         print(message)
+        return
+    
