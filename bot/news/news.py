@@ -1,7 +1,7 @@
 # News class
 
 from requests.exceptions import HTTPError
-from bot.news.NYTimes import *
+from bot.news.NYTimes import NYTimes
 from bot.createBot import logger
 from bot.keyboards.inline import *
 from bot.enums.newsSources import NewsSources
@@ -13,15 +13,7 @@ class News():
 
     def __init__(self):
         self.keyboard = InlineKeyboard()
-        self.source = 'NYT' 
-
-    def getSectionButtons(self) -> InlineKeyboardMarkup:
-        """
-            Get topic buttons
-        """
-
-        buttons = NYTimes().sectionButtons()
-        return self.keyboard.createInlineKeyBoard(3, buttons)
+        self.setNewsSource()
     
     def getNewsSources(self) -> InlineKeyboardMarkup:
         """
@@ -31,7 +23,7 @@ class News():
         newsSources: dict[str, str] = NewsSources.NEWS_SOURCES.value
         return self.keyboard.createInlineKeyBoard(1, newsSources)
     
-    def setNewsSource(self, source: str) -> bool:
+    def setNewsSource(self, source = 'source_NYT') -> bool:
         """
             Set news source
         """
@@ -40,16 +32,24 @@ class News():
             logger.log(self.__class__.__name__, f"Source '{source}' is not exist!")
             raise Exception(f"Source '{source}' is not exist!")
             return False
-                
-        self.source = source.split('_')[1]
+        
+        if source == 'source_NYT':
+            self.source = NYTimes()
         return True
+    
+    def getSectionButtons(self) -> InlineKeyboardMarkup:
+        """
+            Get topic buttons
+        """
+        
+        buttons = self.source.sectionButtons()
+        return self.keyboard.createInlineKeyBoard(3, buttons)
 
     def getNews(self, section: str) -> str:
         """
             Get news from API
         """
-        
-        if self.source == "NYT":
-            requestData = NYTimes().get(section)
-            return NYTimes().getNews(requestData, section)
+    
+        requestData = self.source.get(section)
+        return self.source.getNews(requestData, section)
         

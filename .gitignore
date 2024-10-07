@@ -163,3 +163,4 @@ cython_debug/
 
 log/*.log
 .vscode
+bot/news/*.json
